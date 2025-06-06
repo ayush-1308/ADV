@@ -1,15 +1,28 @@
 package exampleJDBC;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class Assignment2 {
-	public static void main(String[] args) {
-		try(Connection dbConnect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbcdemo", "root", "Coolpad360@");
-			Scanner sc = new Scanner(System.in);) {
+	public static void main(String[] args) throws FileNotFoundException, IOException {
+		try{
+			Properties properties = new Properties();
+			properties.load(new FileInputStream("application.properties"));
+			
+			String dbUrl = properties.getProperty("connection.dbUrl"); 
+			String dbUsername = properties.getProperty("connection.dbUsername"); 
+			String dbPassword = properties.getProperty("connection.dbPassword"); 
+			
+			Connection dbConnect = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+			System.out.println("Connection Done!!");
+			Scanner sc = new Scanner(System.in); 
 			
 			int choice = 0;
 			String ch = "";
